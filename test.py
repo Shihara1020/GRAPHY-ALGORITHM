@@ -1,27 +1,17 @@
 import heapq
 
+def spanningTree(graphy,n):
+    connect=[False]*n
+    heap=[(0,0)]  #weight,source
+    sum=0
 
-def dijkstra(grapy,source,n,dest):
-    dis=[float("inf")]*n
-    dis[source]=0
-    heap=[(0,source)]
-    parent=[-1]*n
     while heap:
         weight,node=heapq.heappop(heap)
-        if node==dest:
-            break
-        for neibor,w in grapy[node]:
-            if dis[neibor]>w+weight:
-                dis[neibor]=w+weight
-                heapq.heappush(heap,(dis[neibor],neibor))
-                parent[neibor]=node
-    if dis[dest]==float("inf"):
-        return "No path"
-    path=[]
-    node=dest
-    while parent[node]!=node:
-        path.append(node)
-        node=parent[node]
+        if connect[node]:
+            continue
+        sum+=weight
+        connect[node]=True
 
-    path.append(source)
-            
+        for neibor,weight in graphy[node]:
+            if not connect[neibor]:
+                heapq.heappush(heap,(weight,neibor))
